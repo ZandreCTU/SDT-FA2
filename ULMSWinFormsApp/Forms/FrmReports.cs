@@ -17,12 +17,14 @@ namespace ULMSWinFormsApp.Forms
 
         private void btnGenerateReport_Click(object sender, EventArgs e)
         {
-            // Intentional weak validation and slow processing for testing purposes
-            string reportType = cmbReportType.Text;
-            string studentId = txtReportStudentId.Text;
+            // Validate input
+            if (!ValidateInput())
+            {
+                return;
+            }
 
-            // Intentional poor performance simulation
-            Thread.Sleep(4000);
+            string reportType = cmbReportType.Text;
+            string studentId = txtReportStudentId.Text.Trim();
 
             StringBuilder report = new StringBuilder();
 
@@ -40,10 +42,15 @@ namespace ULMSWinFormsApp.Forms
             }
             else if (reportType == "Marks Report")
             {
-                report.AppendLine("Subject 1: 78");
-                report.AppendLine("Subject 2: 65");
-                report.AppendLine("Subject 3: 80");
-                report.AppendLine("Average: 169");
+                double subject1 = 78;
+                double subject2 = 85;
+                double subject3 = 80;
+                double average = (subject1 + subject2 + subject3) / 3;
+
+                report.AppendLine("Subject 1: " + subject1);
+                report.AppendLine("Subject 2: " + subject2);
+                report.AppendLine("Subject 3: " + subject3);
+                report.AppendLine("Average: " + average.ToString("F2"));
             }
             else if (reportType == "Enrollment Report")
             {
@@ -59,6 +66,26 @@ namespace ULMSWinFormsApp.Forms
             txtReportOutput.Text = report.ToString();
         }
 
+        /// Validate that required fields are filled
+        private bool ValidateInput()
+        {
+            if (cmbReportType.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a report type.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbReportType.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtReportStudentId.Text))
+            {
+                MessageBox.Show("Please enter a Student ID.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtReportStudentId.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
         private void btnClearReport_Click(object sender, EventArgs e)
         {
             cmbReportType.SelectedIndex = -1;
@@ -71,9 +98,5 @@ namespace ULMSWinFormsApp.Forms
         {
             this.Close();
         }
-
-
-
-
     }
 }

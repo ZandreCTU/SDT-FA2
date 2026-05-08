@@ -2,9 +2,9 @@
 {
     public class Enrollment
     {
-        public string StudentId { get; set; }
-        public string StudentName { get; set; }
-        public string CourseName { get; set; }
-        public string Semester { get; set; }
+        public string StudentId { get; set; } = string.Empty;
+        public string StudentName { get; set; } = string.Empty;
+        public string CourseName { get; set; } = string.Empty;
+        public string Semester { get; set; } = string.Empty;
     }
 }
